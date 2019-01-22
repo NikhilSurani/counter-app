@@ -1,5 +1,16 @@
 import React, { Component } from "react";
 class Counter extends Component {
+  componentDidUpdate(prevProps, prevState) {
+    console.log("prevProps", prevProps);
+    console.log("prevState", prevState);
+    if (prevProps.counter.value !== this.props.counter.value) {
+      // Make Ajax call and get new data
+    }
+  }
+
+  componentWillUnmount() {
+    console.log("counter - Unmount");
+  }
   // state = {
   //   value: this.props.counter.value
   //   // tags: []
@@ -20,8 +31,10 @@ class Counter extends Component {
   // };
 
   render() {
+    console.log("Counter - Rendered");
     // console.log(this.props.children);
     // console.log("PROPS", this.props);
+    const { onIncrement, onDelete, counter } = this.props;
     return (
       <div>
         {/* {this.props.id} */}
@@ -30,14 +43,14 @@ class Counter extends Component {
         </span>
         <button
           // Send input Obj in "handleIncrement" method
-          onClick={() => this.props.onIncrement(this.props.counter)}
+          onClick={() => onIncrement(counter)}
           className="btn btn-secondary btn-sm"
         >
           Increment
         </button>
 
         <button
-          onClick={() => this.props.onDelete(this.props.counter.id)}
+          onClick={() => onDelete(counter.id)}
           className="btn btn-danger btn-sm m-2"
         >
           Delete
@@ -54,7 +67,7 @@ class Counter extends Component {
     return value !== 0 ? value : "ZERO";
   }
   getBadgeClasses() {
-    let classes = "badge m-2 badge-";
+    let classes = "badge m-1 badge-";
     classes += this.props.counter.value === 0 ? "warning" : "primary";
     return classes;
   }
